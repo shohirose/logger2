@@ -1,5 +1,3 @@
-#include "shirose/logging.hpp"
-
 #include <gtest/gtest.h>
 
 #include <regex>

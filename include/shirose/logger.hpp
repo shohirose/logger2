@@ -62,6 +62,16 @@ class ConsoleLogger : public LoggerInterface {
   std::unique_ptr<LogFormatterInterface> m_logFormatter;
 };
 
+/// @brief Get a pointer to the library logger
+///
+/// The default logger is ConsoleLogger with LogLevel::error and
+/// DefaultLogFormatter. The library logger can be reset through setLogger() function.
+LoggerInterface* getLogger();
+
+/// @brief Set a new logger to the library logger.
+/// @param[in] logger Logger
+void setLogger(const std::shared_ptr<LoggerInterface>& logger);
+
 }  // namespace shirose
 
 #endif  // SHIROSE_LOGGER_HPP
