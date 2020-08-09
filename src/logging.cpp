@@ -4,25 +4,19 @@ namespace shirose {
 
 namespace {
 
-std::shared_ptr<LoggerInterface>& getLibLogger() {
-  static thread_local std::shared_ptr<LoggerInterface> logger;
+std::shared_ptr<LoggerInterface>& getLibraryLogger() {
+  static thread_local std::shared_ptr<LoggerInterface> logger =
+      std::make_shared<ConsoleLogger>(LogLevel::error,
+                                      std::make_unique<DefaultLogFormatter>());
   return logger;
 }
 
 }  // anonymous namespace
 
-void initializeLogger(const std::shared_ptr<LoggerInterface>& logger) {
-  getLibLogger() = logger;
+LoggerInterface* getLogger() { return getLibraryLogger().get(); }
+
+void setLogger(const std::shared_ptr<LoggerInterface>& logger) {
+  getLibraryLogger() = logger;
 }
-
-void finalizeLogger() { getLibLogger() = nullptr; }
-
-LoggerInterface* getLogger() { return getLibLogger().get(); }
-
-void pushLogger(const std::shared_ptr<LoggerInterface>& logger) {
-  getLibLogger() = logger;
-}
-
-void popLogger() { getLibLogger() = nullptr; }
 
 }  // namespace shirose

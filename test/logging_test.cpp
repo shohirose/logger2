@@ -62,21 +62,14 @@ TEST(LoggerTest, ConsoleLoggerTest) {
 }
 
 TEST(LoggingTest, FunctionTest) {
-  auto logger = std::make_shared<ConsoleLogger>(
-      LogLevel::debug, std::make_unique<DefaultLogFormatter>());
-
-  initializeLogger(logger);
-
   auto* systemLogger = getLogger();
   ASSERT_NE(systemLogger, nullptr);
 
-  EXPECT_EQ(systemLogger->getLogLevel(), LogLevel::debug);
+  EXPECT_EQ(systemLogger->getLogLevel(), LogLevel::error);
 
   systemLogger->setLogLevel(LogLevel::off);
   EXPECT_EQ(systemLogger->getLogLevel(), LogLevel::off);
 
   systemLogger->log(LogLevel::fatal, "TEST", "ConsoleLoggerTest 3");
   systemLogger->flush();
-
-  finalizeLogger();
 }

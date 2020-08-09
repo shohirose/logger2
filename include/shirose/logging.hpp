@@ -5,25 +5,18 @@
 
 #include "shirose/logger.hpp"
 
-namespace shirose
-{
+namespace shirose {
 
-/// @brief Initialize a logger
-/// @param[in] logger Logger
-void initializeLogger(const std::shared_ptr<LoggerInterface>& logger);
-
-/// @brief Finalize a logger
-void finalizeLogger();
-
-/// @brief Get a logger
+/// @brief Get a pointer to the logger
+///
+/// The default logger is ConsoleLogger with LogLevel::error and
+/// DefaultLogFormatter. The logger can be reset through setLogger() function.
 LoggerInterface* getLogger();
 
-/// @brief Push a logger
-void pushLogger(const std::shared_ptr<LoggerInterface>& logger);
+/// @brief Set a logger.
+/// @param[in] logger Logger
+void setLogger(const std::shared_ptr<LoggerInterface>& logger);
 
-/// @brief Pop a logger
-void popLogger();
-    
-} // namespace shirose
+}  // namespace shirose
 
-#endif // SHIROSE_LOGGING_HPP
+#endif  // SHIROSE_LOGGING_HPP
