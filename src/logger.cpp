@@ -7,7 +7,7 @@ namespace shirose {
 
 ConsoleLogger::ConsoleLogger(
     LogLevel logLevel, std::unique_ptr<LogFormatterInterface> logFormatter)
-    : m_logLevel{logLevel}, m_logFormatter{std::move(logFormatter)} {}
+    : Base{}, m_logLevel{logLevel}, m_logFormatter{std::move(logFormatter)} {}
 
 void ConsoleLogger::log(LogLevel logLevel, const char* tag,
                         const std::string& message) {
@@ -15,6 +15,21 @@ void ConsoleLogger::log(LogLevel logLevel, const char* tag,
 }
 
 void ConsoleLogger::flush() { std::cout.flush(); }
+
+FileLogger::FileLogger(LogLevel logLevel,
+                       std::unique_ptr<LogFormatterInterface> logFormatter,
+                       std::ofstream logFile)
+    : Base{},
+      m_logLevel{logLevel},
+      m_logFormatter{std::move(logFormatter)},
+      m_logFile{std::move(logFile)} {}
+
+void FileLogger::log(LogLevel logLevel, const char* tag,
+                     const std::string& message) {
+  m_logFile << m_logFormatter->formatLog(logLevel, tag, message);
+}
+
+void FileLogger::flush() { m_logFile.flush(); }
 
 namespace {
 

@@ -59,6 +59,20 @@ TEST(LoggerTest, ConsoleLoggerTest) {
   logger.flush();
 }
 
+TEST(LoggerTest, FileLoggerTest) {
+  FileLogger logger(LogLevel::info, std::make_unique<DefaultLogFormatter>(),
+                    std::ofstream("test.log"));
+
+  EXPECT_EQ(logger.getLogLevel(), LogLevel::info);
+
+  logger.setLogLevel(LogLevel::warn);
+  EXPECT_EQ(logger.getLogLevel(), LogLevel::warn);
+
+  logger.log(LogLevel::warn, "TEST", "FileLoggerTest 1");
+  logger.log(LogLevel::warn, "TEST", "FileLoggerTest 2");
+  logger.flush();
+}
+
 TEST(LoggingTest, FunctionTest) {
   auto* systemLogger = getLogger();
   ASSERT_NE(systemLogger, nullptr);

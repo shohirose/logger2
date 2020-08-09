@@ -1,8 +1,8 @@
 #ifndef SHIROSE_LOGGER_HPP
 #define SHIROSE_LOGGER_HPP
 
+#include <fstream>
 #include <memory>
-#include <string>
 
 #include "shirose/log_formatter.hpp"
 #include "shirose/log_level.hpp"
@@ -27,18 +27,54 @@ class LoggerInterface {
   virtual void flush() = 0;
 };
 
+/// @brief A logger which outputs log messages to the standard output.
+///
+/// Log messages are formatted by a given log formatter.
 class ConsoleLogger : public LoggerInterface {
  public:
-  /// @brief Constructs a logger which outputs log messages to the standard
-  /// output or std::cout.
+  using Base = LoggerInterface;
+
   /// @param[in] logLevel Log level
   /// @param[in] logFormatter Log formatter
-  ///
-  /// The log messages are formatted by a given log formatter.
   ConsoleLogger(LogLevel logLevel,
                 std::unique_ptr<LogFormatterInterface> logFormatter);
 
   ~ConsoleLogger() override = default;
+
+  LogLevel getLogLevel() const override { return m_logLevel; }
+
+  void setLogLevel(LogLevel logLevel) override { m_logLevel = logLevel; }
+
+  /// @brief Outputs a message with a log level and a tag.
+  /// @param[in] logLevel Log level
+  /// @param[in] tag Tag
+  /// @param[in] message Message
+  void log(LogLevel logLevel, const char* tag,
+           const std::string& message) override;
+
+  /// @brief Flush the standard output (Call std::cout.flush()).
+  void flush() override;
+
+ private:
+  LogLevel m_logLevel;
+  std::unique_ptr<LogFormatterInterface> m_logFormatter;
+};
+
+/// @brief A logger which outputs log messages to a file.
+///
+/// Log messages are formatted by a given log formatter.
+class FileLogger : public LoggerInterface {
+ public:
+  using Base = LoggerInterface;
+
+  /// @param[in] logLevel Log level
+  /// @param[in] logFormatter Log formatter
+  /// @param[in] logFile Log file
+  FileLogger(LogLevel logLevel,
+             std::unique_ptr<LogFormatterInterface> logFormatter,
+             std::ofstream logFile);
+
+  ~FileLogger() override = default;
 
   LogLevel getLogLevel() const override { return m_logLevel; }
 
@@ -60,12 +96,14 @@ class ConsoleLogger : public LoggerInterface {
  private:
   LogLevel m_logLevel;
   std::unique_ptr<LogFormatterInterface> m_logFormatter;
+  std::ofstream m_logFile;
 };
 
 /// @brief Get a pointer to the library logger
 ///
 /// The default logger is ConsoleLogger with LogLevel::error and
-/// DefaultLogFormatter. The library logger can be reset through setLogger() function.
+/// DefaultLogFormatter. The library logger can be reset through setLogger()
+/// function.
 LoggerInterface* getLogger();
 
 /// @brief Set a new logger to the library logger.
