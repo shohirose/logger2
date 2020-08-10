@@ -2,6 +2,7 @@
 #define SHIROSE_LOG_FORMATTER_HPP
 
 #include <string>
+#include <memory>
 
 #include "shirose/log_level.hpp"
 
@@ -21,6 +22,8 @@ class LogFormatterInterface {
 /// [LogLevel] YY-MM-DD hh:mm:ss [tag] [thread-id] message
 class DefaultLogFormatter : public LogFormatterInterface {
  public:
+  static std::unique_ptr<DefaultLogFormatter> create();
+
   ~DefaultLogFormatter() override = default;
 
   /// @brief Returns a formatted log message.

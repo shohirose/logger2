@@ -8,6 +8,10 @@
 
 namespace shirose {
 
+std::unique_ptr<DefaultLogFormatter> DefaultLogFormatter::create() {
+   return std::make_unique<DefaultLogFormatter>();
+}
+
 std::string DefaultLogFormatter::formatLog(LogLevel logLevel, const char* tag,
                                            const std::string& message) {
   std::stringstream ss;

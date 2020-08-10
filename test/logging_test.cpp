@@ -39,7 +39,7 @@ TEST(LogFormatterTest, DefaultLogFormatterTest) {
 }
 
 TEST(LoggerTest, ConsoleLoggerTest) {
-  ConsoleLogger logger(LogLevel::info, std::make_unique<DefaultLogFormatter>());
+  ConsoleLogger logger(LogLevel::info, DefaultLogFormatter::create());
 
   EXPECT_EQ(logger.getLogLevel(), LogLevel::info);
 
@@ -60,8 +60,7 @@ TEST(LoggerTest, ConsoleLoggerTest) {
 }
 
 TEST(LoggerTest, FileLoggerTest) {
-  FileLogger logger(LogLevel::info, std::make_unique<DefaultLogFormatter>(),
-                    "test.log");
+  FileLogger logger(LogLevel::info, DefaultLogFormatter::create(), "test.log");
 
   EXPECT_EQ(logger.getLogLevel(), LogLevel::info);
 
