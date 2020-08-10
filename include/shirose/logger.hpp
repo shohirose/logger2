@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <memory>
+#include <string>
 
 #include "shirose/log_formatter.hpp"
 #include "shirose/log_level.hpp"
@@ -69,10 +70,10 @@ class FileLogger : public LoggerInterface {
 
   /// @param[in] logLevel Log level
   /// @param[in] logFormatter Log formatter
-  /// @param[in] logFile Log file
+  /// @param[in] fileName Log file name
   FileLogger(LogLevel logLevel,
              std::unique_ptr<LogFormatterInterface> logFormatter,
-             std::ofstream logFile);
+             const std::string& fileName);
 
   ~FileLogger() override = default;
 

@@ -18,11 +18,11 @@ void ConsoleLogger::flush() { std::cout.flush(); }
 
 FileLogger::FileLogger(LogLevel logLevel,
                        std::unique_ptr<LogFormatterInterface> logFormatter,
-                       std::ofstream logFile)
+                       const std::string& fileName)
     : Base{},
       m_logLevel{logLevel},
       m_logFormatter{std::move(logFormatter)},
-      m_logFile{std::move(logFile)} {}
+      m_logFile{fileName} {}
 
 void FileLogger::log(LogLevel logLevel, const char* tag,
                      const std::string& message) {

@@ -61,7 +61,7 @@ TEST(LoggerTest, ConsoleLoggerTest) {
 
 TEST(LoggerTest, FileLoggerTest) {
   FileLogger logger(LogLevel::info, std::make_unique<DefaultLogFormatter>(),
-                    std::ofstream("test.log"));
+                    "test.log");
 
   EXPECT_EQ(logger.getLogLevel(), LogLevel::info);
 
