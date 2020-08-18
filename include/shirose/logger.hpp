@@ -4,6 +4,7 @@
 #include <fstream>
 #include <memory>
 #include <string>
+#include <mutex>
 
 #include "shirose/log_formatter.hpp"
 #include "shirose/log_level.hpp"
@@ -59,6 +60,7 @@ class ConsoleLogger : public LoggerInterface {
  private:
   LogLevel m_logLevel;
   std::unique_ptr<LogFormatterInterface> m_logFormatter;
+  std::mutex m_coutMutex;
 };
 
 /// @brief A logger which outputs log messages to a file.
