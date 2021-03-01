@@ -1,4 +1,4 @@
-target_sources(shirose_logger
+target_sources(logger
   PUBLIC
     log_level.hpp
     logger.hpp
