@@ -37,3 +37,6 @@ out/
 
 # Visual Studio Code
 .vscode/
+
+# CMake
+build/
